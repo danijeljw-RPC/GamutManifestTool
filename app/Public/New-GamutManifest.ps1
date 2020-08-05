@@ -851,7 +851,7 @@ function New-GamutManifest {
                 $maniDict.Id.Installers.x86.$_lang.MsiExe=$MsiExe_x86[$Languages.IndexOf($_lang)]
 
                 # Everything concenting URI of the input
-                $maniDict.Id.Installers.x64.$_lang.InstallURI=$InstallURI_x64[$Languages.IndexOf($_lang)]
+                $maniDict.Id.Installers.x86.$_lang.InstallURI=$InstallURI_x64[$Languages.IndexOf($_lang)]
                 [String]$pkgdl=Get-RedirectedUrl -Url $InstallURI_x86[$Languages.IndexOf($_lang)]
                 $maniDict.Id.Installers.x86.$_lang.FollowURI=$pkgdl
                 Invoke-WebRequest -Uri $pkgdl -OutFile $file_tmp -WebSession $null -UserAgent $userAgent
