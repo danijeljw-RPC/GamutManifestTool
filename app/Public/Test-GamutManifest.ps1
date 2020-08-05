@@ -108,7 +108,7 @@ function Test-GamutManifest {
             }
             else {
                 Write-Color 'App Version:' -Color Gray
-                Write-Color '  [',$([char]8730),']' -Color Cyan,Green,Cyan
+                Write-Color '  [',$([char]8730),']  ',$([System.Version]$jsonData.Id.Version) -Color Cyan,Green,Cyan,Yellow
             }
 
             # Publisher
