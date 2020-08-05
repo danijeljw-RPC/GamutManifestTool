@@ -530,13 +530,174 @@ function New-GamutManifest {
         [Alias('updreg86')]
         [Array]$UpdateRegex_x86,
 
+        [Parameter(Mandatory=$false,
+            ValueFromPipeline=$true,
+            ValueFromPipelineByPropertyName=$true,
+            HelpMessage='Detection methods: Reg, File, Installer, Custom',
+            Position=33)]
+        [ValidateSet('Reg','File','Installer','Custom')]
+        [ValidateScript(
+            {
+                [Array]$DetectList=@('Reg','File','Installer','Custom')
+                if ($_ -in $DetectList) {
+                    $_
+                }
+                else {
+                    Throw "'$_' is NOT an approved detection method."
+                }
+            }
+        )]
+        [Alias('detectm64')]
+        [Array]$DetectionMethod_x64,
+
+        [Parameter(Mandatory=$false,
+            ValueFromPipeline=$true,
+            ValueFromPipelineByPropertyName=$true,
+            HelpMessage='Detection value, can be script, reg path, file path, etc. Max 400 characters.',
+            Position=34)]
+        [ValidateScript(
+            {
+                foreach ($i in $_) {
+                    if ($_.Length -gt 0 -and $_.Lengyth -lt 400) {
+                        $_
+                    }
+                    else {
+                        Throw "'$_' does NOT provide a valid length."
+                    }
+                }
+            }
+        )]
+        [Alias('detectv64')]
+        [Array]$DetectionValue_x64,
+        
+        [Parameter(Mandatory=$false,
+            ValueFromPipeline=$true,
+            ValueFromPipelineByPropertyName=$true,
+            HelpMessage='Detection value, can be script, reg path, file path, etc. Max 400 characters.',
+            Position=35)]
+        [ValidateSet('String','FilePath','Int','Version','FileVersion')]
+        [ValidateScript(
+            {
+                [Array]$DetectList=@('String','FilePath','Int','Version','FileVersion')
+                if ($_ -in $DetectList) {
+                    $_
+                }
+                else {
+                    Throw "'$_' is NOT an approved Kind type."
+                }
+            }
+        )]
+        [Alias('detectk64')]
+        [Array]$DetectionKind_x64,
+
+        [Parameter(Mandatory=$false,
+            ValueFromPipeline=$true,
+            ValueFromPipelineByPropertyName=$true,
+            HelpMessage='Detection value, can be script, reg path, file path, etc. Max 400 characters.',
+            Position=36)]
+        [ValidateSet('String','Int','Version','Bool')]
+        [ValidateScript(
+            {
+                [Array]$DetectList=@('String','Int','Version','Bool')
+                if ($_ -in $DetectList) {
+                    $_
+                }
+                else {
+                    Throw "'$_' is NOT an approved Result type."
+                }
+            }
+        )]
+        [Alias('detectr64')]
+        [Array]$DetectionResult_x64,
+
+        [Parameter(Mandatory=$false,
+            ValueFromPipeline=$true,
+            ValueFromPipelineByPropertyName=$true,
+            HelpMessage='Detection methods: Reg, File, Installer, Custom',
+            Position=37)]
+        [ValidateSet('Reg','File','Installer','Custom')]
+        [ValidateScript(
+            {
+                [Array]$DetectList=@('Reg','File','Installer','Custom')
+                if ($_ -in $DetectList) {
+                    $_
+                }
+                else {
+                    Throw "'$_' is NOT an approved detection method."
+                }
+            }
+        )]
+        [Alias('detectm86')]
+        [Array]$DetectionMethod_x86,
+
+        [Parameter(Mandatory=$false,
+            ValueFromPipeline=$true,
+            ValueFromPipelineByPropertyName=$true,
+            HelpMessage='Detection value, can be script, reg path, file path, etc. Max 400 characters.',
+            Position=38)]
+        [ValidateScript(
+            {
+                foreach ($i in $_) {
+                    if ($_.Length -gt 0 -and $_.Lengyth -lt 400) {
+                        $_
+                    }
+                    else {
+                        Throw "'$_' does NOT provide a valid length."
+                    }
+                }
+            }
+        )]
+        [Alias('detectv86')]
+        [Array]$DetectionValue_x86,
+        
+        [Parameter(Mandatory=$false,
+            ValueFromPipeline=$true,
+            ValueFromPipelineByPropertyName=$true,
+            HelpMessage='Detection value, can be script, reg path, file path, etc. Max 400 characters.',
+            Position=39)]
+        [ValidateSet('String','FilePath','Int','Version','FileVersion')]
+        [ValidateScript(
+            {
+                [Array]$DetectList=@('String','FilePath','Int','Version','FileVersion')
+                if ($_ -in $DetectList) {
+                    $_
+                }
+                else {
+                    Throw "'$_' is NOT an approved Kind type."
+                }
+            }
+        )]
+        [Alias('detectk86')]
+        [Array]$DetectionKind_x86,
+
+        [Parameter(Mandatory=$false,
+            ValueFromPipeline=$true,
+            ValueFromPipelineByPropertyName=$true,
+            HelpMessage='Detection value, can be script, reg path, file path, etc. Max 400 characters.',
+            Position=40)]
+        [ValidateSet('String','Int','Version','Bool')]
+        [ValidateScript(
+            {
+                [Array]$DetectList=@('String','Int','Version','Bool')
+                if ($_ -in $DetectList) {
+                    $_
+                }
+                else {
+                    Throw "'$_' is NOT an approved Result type."
+                }
+            }
+        )]
+        [Alias('detectr86')]
+        [Array]$DetectionResult_x86,
+
         [Parameter(Mandatory=$true,
             ValueFromPipeline=$true,
             ValueFromPipelineByPropertyName=$true,
             ValueFromRemainingArguments=$false,
             HelpMessage='Path to directory for Manifest repository.',
-            Position=33)]
-            [ValidateScript({
+            Position=41)]
+        [ValidateScript(
+            {
                 if (-not ($_ | Test-Path) ) {
                     throw "'$_' is NOT a valid file path."
                 }
@@ -544,7 +705,8 @@ function New-GamutManifest {
                     throw "The Path argument must be a directory. File paths are not allowed."
                 }
                 return $true
-            })]
+            }
+        )]
         [Alias('path')]
         [System.IO.FileInfo]$OutPath
     )
@@ -663,7 +825,19 @@ function New-GamutManifest {
                 $maniDict.Id.Installers.x64.$_lang.UpdateURI=$UpdateURI_x64[$Languages.IndexOf($_lang)]
                 
                 # Update Regex (for Update URI, tba)
-                $maniDict.Id.Installers.x64.$_lang.UpdateRegex=$UpdateRegex_x64[$Languages.IndexOf($_lang)] 
+                $maniDict.Id.Installers.x64.$_lang.UpdateRegex=$UpdateRegex_x64[$Languages.IndexOf($_lang)]
+
+                # Detection Method
+                $maniDict.Id.Installers.x64.$_lang.DetectionMethod=$DetectionMethod_x64[$Languages.IndexOf($_lang)]
+
+                # Detection Value
+                $maniDict.Id.Installers.x64.$_lang.DetectionValue=$DetectionValue_x64[$Languages.IndexOf($_lang)]
+
+                # Detection Kind
+                $maniDict.Id.Installers.x64.$_lang.DetectionKind=$DetectionKind_x64[$Languages.IndexOf($_lang)]
+
+                # Detection Result
+                $maniDict.Id.Installers.x64.$_lang.DetectionResult=$DetectionResult_x64[$Languages.IndexOf($_lang)]
             }
         }
 
@@ -707,6 +881,18 @@ function New-GamutManifest {
                 
                 # Update Regex (for Update URI, tba)
                 $maniDict.Id.Installers.x86.$_lang.UpdateRegex=$UpdateRegex_x86[$Languages.IndexOf($_lang)]
+
+                # Detection Method
+                $maniDict.Id.Installers.x86.$_lang.DetectionMethod=$DetectionMethod_x86[$Languages.IndexOf($_lang)]
+
+                # Detection Value
+                $maniDict.Id.Installers.x86.$_lang.DetectionValue=$DetectionValue_x86[$Languages.IndexOf($_lang)]
+
+                # Detection Kind
+                $maniDict.Id.Installers.x86.$_lang.DetectionKind=$DetectionKind_x86[$Languages.IndexOf($_lang)]
+
+                # Detection Result
+                $maniDict.Id.Installers.x86.$_lang.DetectionResult=$DetectionResult_x86[$Languages.IndexOf($_lang)]
             }
         }
 
