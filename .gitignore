@@ -30,4 +30,5 @@ Temporary Items
 *.exe
 
 # Test files
-app/Mozilla
+Test
+Tests
