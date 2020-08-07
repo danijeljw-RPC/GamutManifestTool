@@ -109,7 +109,7 @@ function New-GamutManifest {
                 # Set TLS 1.2
                 [Net.ServicePointManager]::SecurityProtocol=[Net.SecurityProtocolType]::Tls12
                 $urlg='https://raw.githubusercontent.com/repasscloud/software-library/master/lib/public/licenses.csv'
-                $outputb=[System.IO.Path]::Combine($dir_tmpj,$([System.GUID]::NewGUID().Guid)+'.txt')
+                $outputb=[System.IO.Path]::Combine($dir_tmpj,$([System.GUID]::NewGUID().Guid)+'.csv')
                 (New-Object System.Net.WebClient).DownloadFile($urlg, $outputb)
                 if ($_ -in ( (Import-Csv -Path $outputb -Delimiter ',').'License Code') ) {
                     $_

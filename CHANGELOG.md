@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Convert to PSModule.
   - Renamed from `CMani (Desktop/Core)` to `Gamut Manifest Tool`
   - Detection method for Custom ~> [issue #6](https://github.com/repasscloud/GamutManifestTool/issues/6)
+  - `Test-GamutManifest` renamed to `Validate-GamutManifest`
 
 ## [4.3.7.9] - 2020-07-29
 **Added**
