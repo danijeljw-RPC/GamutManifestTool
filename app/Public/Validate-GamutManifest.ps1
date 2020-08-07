@@ -12,7 +12,7 @@ Version:
 Last Updated:
 #>
 
-function Test-GamutManifest {
+function Validate-GamutManifest {
     [CmdletBinding()]
     [OutputType([System.Collections.Hashtable])]
     param (
