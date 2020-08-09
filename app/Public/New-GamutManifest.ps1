@@ -309,7 +309,7 @@ function New-GamutManifest {
         [Alias('exe64')]
         [Array]$MsiExe_x64,
 
-        [Parameter(Mandatory=$true,
+        [Parameter(Mandatory=$false,
             ValueFromPipeline=$true,
             ValueFromPipelineByPropertyName=$true,
             ValueFromRemainingArguments=$false,
