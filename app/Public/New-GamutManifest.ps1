@@ -109,7 +109,7 @@ function New-GamutManifest {
                 # Set TLS 1.2
                 [Net.ServicePointManager]::SecurityProtocol=[Net.SecurityProtocolType]::Tls12
                 $urlg='https://raw.githubusercontent.com/repasscloud/software-library/master/lib/public/licenses.csv'
-                $outputb=[System.IO.Path]::Combine($dir_tmpj,$([System.GUID]::NewGUID().Guid)+'.txt')
+                $outputb=[System.IO.Path]::Combine($dir_tmpj,$([System.GUID]::NewGUID().Guid)+'.csv')
                 (New-Object System.Net.WebClient).DownloadFile($urlg, $outputb)
                 if ($_ -in ( (Import-Csv -Path $outputb -Delimiter ',').'License Code') ) {
                     $_
@@ -309,7 +309,7 @@ function New-GamutManifest {
         [Alias('exe64')]
         [Array]$MsiExe_x64,
 
-        [Parameter(Mandatory=$true,
+        [Parameter(Mandatory=$false,
             ValueFromPipeline=$true,
             ValueFromPipelineByPropertyName=$true,
             ValueFromRemainingArguments=$false,
@@ -593,7 +593,7 @@ function New-GamutManifest {
         [Parameter(Mandatory=$false,
             ValueFromPipeline=$true,
             ValueFromPipelineByPropertyName=$true,
-            HelpMessage='Detection value, can be script, reg path, file path, etc. Max 400 characters.',
+            HelpMessage='Detection Result, is the result of the Kind. 0-400 characters.',
             Position=36)]
         [ValidateScript(
             {
@@ -673,7 +673,7 @@ function New-GamutManifest {
         [Parameter(Mandatory=$false,
             ValueFromPipeline=$true,
             ValueFromPipelineByPropertyName=$true,
-            HelpMessage='Detection value, can be script, reg path, file path, etc. Max 400 characters.',
+            HelpMessage='Detection Result, is the result of the Kind. 0-400 characters.',
             Position=40)]
         [ValidateScript(
             {
