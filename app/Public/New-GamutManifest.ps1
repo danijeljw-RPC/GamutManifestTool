@@ -578,7 +578,7 @@ function New-GamutManifest {
         [ValidateSet('String','FilePath','Int','Version','FileVersion')]
         [ValidateScript(
             {
-                [Array]$DetectList=@('String','FilePath','Int','Version','FileVersion')
+                [Array]$DetectList=@('String','FilePath','Int','Version','FileVersion','Bool')
                 if ($_ -in $DetectList) {
                     $_
                 }
@@ -595,15 +595,15 @@ function New-GamutManifest {
             ValueFromPipelineByPropertyName=$true,
             HelpMessage='Detection value, can be script, reg path, file path, etc. Max 400 characters.',
             Position=36)]
-        [ValidateSet('String','Int','Version','Bool')]
         [ValidateScript(
             {
-                [Array]$DetectList=@('String','Int','Version','Bool')
-                if ($_ -in $DetectList) {
-                    $_
-                }
-                else {
-                    Throw "'$_' is NOT an approved Result type."
+                foreach ($i in $_) {
+                    if ($_.Length -gt 0 -and $_.Lengyth -lt 400) {
+                        $_
+                    }
+                    else {
+                        Throw "'$_' does NOT provide a valid length."
+                    }
                 }
             }
         )]
@@ -675,15 +675,15 @@ function New-GamutManifest {
             ValueFromPipelineByPropertyName=$true,
             HelpMessage='Detection value, can be script, reg path, file path, etc. Max 400 characters.',
             Position=40)]
-        [ValidateSet('String','Int','Version','Bool')]
         [ValidateScript(
             {
-                [Array]$DetectList=@('String','Int','Version','Bool')
-                if ($_ -in $DetectList) {
-                    $_
-                }
-                else {
-                    Throw "'$_' is NOT an approved Result type."
+                foreach ($i in $_) {
+                    if ($_.Length -gt 0 -and $_.Lengyth -lt 400) {
+                        $_
+                    }
+                    else {
+                        Throw "'$_' does NOT provide a valid length."
+                    }
                 }
             }
         )]
